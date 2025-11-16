@@ -1,1 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CryptoBurger - Демо магазин</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Стили */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
 
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .menu {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .product {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+
+        .buy-btn {
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .buy-btn:hover {
+            background: #FF5252;
+        }
+
+        .cart {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .cart-item {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: #FFD700;
+        }
+
+        .payment-methods {
+            display: grid;
+            gap: 10px;
+        }
+
+        .pay-btn {
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .pay-btn.bank {
+            background: #4ECDC4;
+            color: white;
+        }
+
+        .pay-btn.crypto {
+            background: #FFD166;
+            color: #333;
+        }
+
+        .receipt {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .receipt h3 {
+            text-align: center;
+            margin-top: 0;
+            color: #2E86AB;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .demo-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header>
+            <h1>🍔 CryptoBurger</h1>
+            <p>Первый бургер с крипто-оплатой!</p>
+            <div class="demo-badge">🎮 ДЕМО-РЕЖИМ</div>
+        </header>
+
+        <!-- Меню бургеров -->
+        <div class="menu">
+            <div class="product" data-id="1" data-price="5.99">
+                <img src="https://via.placeholder.com/300x200/FF6B6B/white?text=CLASSIC+BURGER" alt="Classic Burger">
+                <h3>Classic Burger</h3>
+                <p>Говядина, салат, помидор, соус</p>
+                <div class="price">$5.99</div>
+                <button class="buy-btn" onclick="addToCart(1)">🍔 В корзину</button>
+            </div>
+
+            <div class="product" data-id="2" data-price="7.99">
+                <img src="https://via.placeholder.com/300x200/4ECDC4/white?text=CHEESE+BURGER" alt="Cheese Burger">
+                <h3>Cheese Burger</h3>
+                <p>Двойной сыр, бекон, луковые кольца</p>
+                <div class="price">$7.99</div>
+                <button class="buy-btn" onclick="addToCart(2)">🍔 В корзину</button>
+            </div>
+
+            <div class="product" data-id="3" data-price="9.99">
+                <img src="https://via.placeholder.com/300x200/FFD166/white?text=CRYPTO+BURGER" alt="Crypto Burger">
+                <h3>Crypto Burger</h3>
+                <p>Эксклюзив! С авокадо и трюфелем</p>
+                <div class="price">$9.99</div>
+                <button class="buy-btn" onclick="addToCart(3)">🍔 В корзину</button>
+            </div>
+        </div>
+
+        <!-- Корзина -->
+        <div class="cart">
+            <h3>🛒 Ваш заказ</h3>
+            <div id="cart-items"></div>
+            <div class="total">Итого: $<span id="total">0.00</span></div>
+            
+            <!-- Способы оплаты -->
+            <div class="payment-methods">
+                <button class="pay-btn bank" onclick="payWithBank()">
+                    🏦 T-Bank Demo оплата
+                </button>
+                <button class="pay-btn crypto" onclick="payWithCrypto()">
+                    ₿ Crypto Testnet оплата
+                </button>
+            </div>
+        </div>
+
+        <!-- Чек -->
+        <div id="receipt" class="receipt hidden">
+            <h3>📄 Чек заказа</h3>
+            <div id="receipt-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // ================== ОСНОВНАЯ ЛОГИКА ==================
+        let cart = [];
+        let total = 0;
+        const EXCHANGE_RATE = 91.5; // USDT/RUB
+
+        // Инициализация Telegram Web App
+        let tg = window.Telegram.WebApp;
+        
+        // Функции корзины
+        function addToCart(productId) {
+            const product = document.querySelector(`[data-id="${productId}"]`);
+            const price = parseFloat(product.dataset.price);
+            const productName = product.querySelector('h3').textContent;
+            
+            cart.push({ 
+                id: productId, 
+                price: price,
+                name: productName
+            });
+            total += price;
+            
+            updateCart();
+            showNotification(`✅ ${productName} добавлен в корзину!`);
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalElement = document.getElementById('total');
+            
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    ${item.name} - $${item.price}
+                    <button onclick="removeFromCart(${index})" style="float: right; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px;">×</button>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+            
+            totalElement.textContent = total.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Функции оплаты
+        function payWithBank() {
+            if (total === 0) {
+                showNotification("❌ Корзина пуста!");
+                return;
+            }
+            
+            showNotification(`🏦 Имитация оплаты $${total.toFixed(2)} через T-Bank...`);
+            
+            setTimeout(() => {
+                const receipt = generateBankReceipt();
+                showReceipt(receipt);
+            }, 2000);
+        }
+
+        function payWithCrypto() {
+            if (total === 0) {
+                showNotification("❌ Корзина пуста!");
+                return;
+            }
+            
+            showNotification(`₿ Имитация оплаты $${total.toFixed(2)} в USDT Testnet...`);
+            
+            setTimeout(() => {
+                const receipt = generateCryptoReceipt();
+                showReceipt(receipt);
+            }, 2000);
+        }
+
+        // Генерация чеков
+        function generateBankReceipt() {
+            const paymentId = 'TB_' + Date.now();
+            const rubAmount = (total * EXCHANGE_RATE).toFixed(2);
+            
+            return `
+                <div style="line-height: 1.6;">
+                    <strong style="color: #2E86AB;">🏦 T-BANK DEMO ЧЕК</strong>
+                    <hr>
+                    <strong>Заказ:</strong><br>
+                    ${cart.map(item => `• ${item.name} - $${item.price}`).join('<br>')}
+                    <br><br>
+                    <strong>Платежные данные:</strong><br>
+                    • Сумма: $${total.toFixed(2)} (${rubAmount} RUB)<br>
+                    • ID платежа: ${paymentId}<br>
+                    • Метод: T-Bank Sandbox<br>
+                    • Статус: <span style="color: green;">✅ ОПЛАЧЕНО</span>
+                    <br><br>
+                    <em style="color: #666;">Демо-режим: реальные деньги не списываются</em>
+                </div>
+            `;
+        }
+
+        function generateCryptoReceipt() {
+            const txHash = '0x' + Math.random().toString(16).substr(2, 64);
+            const usdtAmount = (total * 0.99).toFixed(6); // -1% комиссия
+            const blockNumber = Math.floor(50000000 + Math.random() * 1000000);
+            
+            return `
+                <div style="line-height: 1.6;">
+                    <strong style="color: #FFD166;">₿ CRYPTO PAYMENT ЧЕК</strong>
+                    <hr>
+                    <strong>Заказ:</strong><br>
+                    ${cart.map(item => `• ${item.name} - $${item.price}`).join('<br>')}
+                    <br><br>
+                    <strong>Блокчейн данные:</strong><br>
+                    • Сумма: ${usdtAmount} USDT<br>
+                    • Комиссия: 1%<br>
+                    • Сеть: TRC20 Testnet<br>
+                    • TX Hash: ${txHash}<br>
+                    • Блок: #${blockNumber}<br>
+                    • Статус: <span style="color: green;">✅ ПОДТВЕРЖДЕНО</span>
+                    <br><br>
+                    <em style="color: #666;">Testnet: транзакция в тестовой сети</em>
+                </div>
+            `;
+        }
+
+        // Вспомогательные функции
+        function showReceipt(receipt) {
+            document.getElementById('receipt-content').innerHTML = receipt;
+            document.getElementById('receipt').classList.remove('hidden');
+            
+            showNotification("🎉 Оплата прошла успешно! Чек создан.");
+            
+            // Очистка корзины после оплаты
+            setTimeout(() => {
+                cart = [];
+                total = 0;
+                updateCart();
+            }, 3000);
+        }
+
+        function showNotification(message) {
+            if (tg && tg.showPopup) {
+                tg.showPopup({
+                    title: "CryptoBurger",
+                    message: message
+                });
+            } else {
+                alert(message); // Fallback для браузера
+            }
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (tg) {
+                tg.ready();
+                tg.expand();
+            }
+            updateCart();
+        });
+
+        // Функция для тестирования в браузере
+        function simulateTelegram() {
+            window.Telegram = {
+                WebApp: {
+                    ready: function() { console.log("TG WebApp ready") },
+                    expand: function() { console.log("TG WebApp expanded") },
+                    showPopup: function(popup) { alert(popup.title + ": " + popup.message) }
+                }
+            };
+            tg = window.Telegram.WebApp;
+            tg.ready();
+            tg.expand();
+        }
+
+        // Если не в Telegram - симулируем окружение
+        if (!window.Telegram) {
+            simulateTelegram();
+        }
+    </script>
+</body>
+</html>
