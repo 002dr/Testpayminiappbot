@@ -1,189 +1,390 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CoinFlow</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
-body{background:#fff;color:#1d1d1f}
-.h{background:linear-gradient(135deg,#007AFF,#5856D6);color:#fff;padding:44px 20px 20px;position:relative}
-.h::before{content:'';position:absolute;top:0;left:0;right:0;height:44px;background:rgba(0,0,0,0.1)}
-.ht{font-size:28px;font-weight:700;margin-bottom:4px}
-.hs{font-size:17px;opacity:0.9}
-.c{padding:20px}
-.s{background:#f5f5f7;border-radius:16px;padding:20px;margin-bottom:20px}
-.st{font-size:22px;font-weight:700;margin-bottom:16px;color:#1d1d1f}
-.cg{display:grid;gap:12px}
-.cb{background:#fff;border-radius:14px;padding:20px;border:1px solid #e5e5e7;transition:all 0.3s;cursor:pointer}
-.cb:active{transform:scale(0.98);background:#f9f9f9}
-.ct{font-size:17px;font-weight:600;margin-bottom:4px;color:#1d1d1f}
-.cd{font-size:15px;color:#86868b;margin-bottom:8px}
-.cp{font-size:19px;font-weight:700;color:#007AFF}
-.cta{background:#007AFF;color:#fff;border:none;padding:12px 24px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:100%;transition:all 0.3s}
-.cta:active{opacity:0.8}
-.f{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:20px;border-top:1px solid #e5e5e7;box-shadow:0 -4px 20px rgba(0,0,0,0.1)}
-.ft{font-size:20px;font-weight:700;margin-bottom:12px;text-align:center}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fb{background:#007AFF;color:#fff;border:none;padding:16px;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;transition:all 0.3s}
-.fb.s{background:#34C759}
-.fb:active{opacity:0.8}
-.m{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;padding:20px}
-.mc{background:#fff;border-radius:20px;padding:24px;max-width:320px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
-.mt{font-size:22px;font-weight:700;margin-bottom:8px;color:#1d1d1f}
-.ms{font-size:17px;color:#86868b;margin-bottom:20px}
-.mg{display:grid;gap:12px}
-.mb{background:#f5f5f7;border:none;padding:16px;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;transition:all 0.3s}
-.mb:active{background:#e5e5e7}
-.r{display:none;background:#fff;border-radius:16px;padding:24px;margin-top:20px;border:1px solid #e5e5e7}
-.rt{font-size:24px;font-weight:700;margin-bottom:16px;color:#1d1d1f;text-align:center}
-.ri{font-size:15px;line-height:1.4;color:#1d1d1f}
-.rib{margin-top:16px;padding-top:16px;border-top:1px solid #e5e5e7;font-size:13px;color:#86868b}
-</style>
+    <title>Neuro Visual Payment</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .payment-options {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .payment-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .payment-card:hover::before {
+            left: 100%;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .payment-card.test {
+            border: 2px solid #00b894;
+        }
+        
+        .payment-card.secret {
+            border: 2px solid #e84393;
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .description {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .pay-btn {
+            background: white;
+            color: #1a1a2e;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .pay-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .pay-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .secret-btn {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .status-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            min-height: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .status-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #00b4db;
+        }
+        
+        .status-content {
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .delivery-map {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #2d3436, #636e72);
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .courier-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e84393;
+            border-radius: 50%;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            animation: moveCourier 3s linear infinite;
+            box-shadow: 0 0 20px #e84393;
+        }
+        
+        @keyframes moveCourier {
+            0% { left: 10%; }
+            50% { left: 50%; }
+            100% { left: 90%; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(46, 213, 115, 0.2);
+            border: 2px solid #2ed573;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 25px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(46, 213, 115, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 213, 115, 0); }
+        }
+        
+        .order-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<div class="h">
-    <div class="ht">CoinFlow</div>
-    <div class="hs">Secure Crypto & Bank Payments</div>
-</div>
-
-<div class="c">
-    <div class="s">
-        <div class="st">Digital Products</div>
-        <div class="cg">
-            <div class="cb" onclick="a('Premium Subscription',999)">
-                <div class="ct">Premium Subscription</div>
-                <div class="cd">Monthly access to all features</div>
-                <div class="cp">999 ₽</div>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Neuro Visual Pay</h1>
+            <p>Система оплаты будущего</p>
+        </div>
+        
+        <div class="payment-options">
+            <div class="payment-card test" onclick="selectPayment('test')">
+                <div class="card-title">🎮 Тестовый режим</div>
+                <div class="price">100 ₽</div>
+                <div class="description">Демонстрация нейро-визуальной технологии оплаты</div>
+                <button class="pay-btn">ЗАПУСТИТЬ ТЕСТ</button>
             </div>
-            <div class="cb" onclick="a('Crypto Starter Pack',1999)">
-                <div class="ct">Crypto Starter Pack</div>
-                <div class="cd">Beginner cryptocurrency kit</div>
-                <div class="cp">1,999 ₽</div>
+            
+            <div class="payment-card secret" onclick="selectPayment('secret')">
+                <div class="card-title">🚀 СЕКРЕТНЫЙ РЕЖИМ</div>
+                <div class="price">500 ₽</div>
+                <div class="description">РЕАЛЬНАЯ доставка воды через Яндекс Еду</div>
+                <button class="pay-btn secret-btn">ЗАКАЗАТЬ ВОДУ</button>
             </div>
-            <div class="cb" onclick="a('NFT Collection',4999)">
-                <div class="ct">NFT Collection</div>
-                <div class="cd">Exclusive digital art pieces</div>
-                <div class="cp">4,999 ₽</div>
+        </div>
+        
+        <div class="status-container">
+            <div class="status-title" id="statusTitle">Готов к оплате</div>
+            <div class="status-content" id="statusContent">
+                Выберите режим оплаты для демонстрации
             </div>
+            <div class="delivery-map hidden" id="deliveryMap">
+                <div class="courier-dot"></div>
+            </div>
+            <div class="order-details hidden" id="orderDetails"></div>
+        </div>
+        
+        <div id="successMessage" class="success-message hidden">
+            <h3>🎉 ЗАКАЗ ВЫПОЛНЕН!</h3>
+            <p id="successText"></p>
         </div>
     </div>
 
-    <div id="r" class="r">
-        <div class="rt">Payment Complete</div>
-        <div id="ri" class="ri"></div>
-        <div class="rib">Thank you for your purchase</div>
-    </div>
-</div>
-
-<div class="f">
-    <div class="ft">Total: <span id="t">0</span> ₽</div>
-    <div class="fg">
-        <button class="fb" onclick="pm()">💳 Pay with Card</button>
-        <button class="fb s" onclick="pm()">₿ Pay with Crypto</button>
-    </div>
-</div>
-
-<div id="m" class="m">
-    <div class="mc">
-        <div class="mt">Select Payment</div>
-        <div class="ms">Choose your payment method</div>
-        <div class="mg">
-            <button class="mb" onclick="pp('redsys')">🏦 Credit/Debit Card</button>
-            <button class="mb" onclick="pp('crypto')">₿ Cryptocurrency</button>
-        </div>
-    </div>
-</div>
-
-<script>
-// CONFIG
-const REDSYS_TOKEN = "2051251535:TEST:OTk5MDA4ODgxLTAwNQ";
-const CRYPTO_BOT_TOKEN = "50008:AAY9vOozp113fjHLNJqYnGUgoJ0JXR5ro9t";
-let k=[],y=0,o=window.Telegram.WebApp;
-o.expand();
-
-function a(n,p){k.push({n,p});y+=p;u();o.showPopup&&o.showPopup({title:"Added to Cart",message:n+" added"})}
-function u(){document.getElementById('t').textContent=y.toLocaleString()}
-function pm(){if(y===0)return alert('Cart is empty');document.getElementById('m').style.display='flex'}
-function pp(m){document.getElementById('m').style.display='none';m==='redsys'?pr():pc()}
-
-function pr(){
-    o.showPopup&&o.showPopup({
-        title: "Processing Payment",
-        message: "Connecting to Redsys..."
-    });
-    
-    setTimeout(()=>{
-        o.showPopup&&o.showPopup({
-            title: "Card Payment",
-            message: `Processing ${y} ₽ via Redsys Test...`
-        });
+    <script>
+        let selectedPayment = null;
+        const tg = window.Telegram.WebApp;
+        tg.expand();
         
-        setTimeout(()=>{
-            gr('redsys');
-        },2000);
-    },1000);
-}
-
-function pc(){
-    o.showPopup&&o.showPopup({
-        title: "Crypto Payment", 
-        message: "Initializing USDT transfer..."
-    });
-    
-    setTimeout(()=>{
-        o.showPopup&&o.showPopup({
-            title: "Blockchain",
-            message: `Sending ${(y/91.5).toFixed(6)} USDT...`
-        });
+        // Переменные для "реальной доставки"
+        let deliveryStages = [
+            "🔍 Поиск ресторанов с водой...",
+            "🛒 Формирование заказа...", 
+            "💳 Обработка платежа...",
+            "👨‍🍳 Ресторан готовит заказ...",
+            "🚗 Курьер выехал к вам!",
+            "📦 Заказ передан курьеру!",
+            "🎯 Курьер приближается!",
+            "✅ Заказ доставлен!"
+        ];
         
-        setTimeout(()=>{
-            gr('crypto');
-        },2000);
-    },1000);
-}
-
-function gr(m){
-    const e=document.getElementById('ri'),r=document.getElementById('r');
-    let h='',oid=Math.random().toString(36).substr(2,9).toUpperCase();
-    
-    if(m==='redsys'){
-        h=`<strong>Order #RS${oid}</strong><br><br>
-        <strong>Items:</strong><br>
-        ${k.map(i=>`• ${i.n} - ${i.p} ₽`).join('<br>')}<br><br>
-        <strong>Total: ${y} ₽</strong><br><br>
-        <strong>Payment Method:</strong> Credit Card (Redsys)<br>
-        <strong>Transaction ID:</strong> ${oid}<br>
-        <strong>Status:</strong> ✅ Approved<br><br>
-        <em>Test transaction - Redsys Sandbox</em>`;
-    }else{
-        const ua=(y/91.5).toFixed(6),th='0x'+Math.random().toString(16).substr(2,64);
-        h=`<strong>Order #CF${oid}</strong><br><br>
-        <strong>Items:</strong><br>
-        ${k.map(i=>`• ${i.n} - ${i.p} ₽`).join('<br>')}<br><br>
-        <strong>Total: ${y} ₽</strong><br>
-        <strong>USDT Amount:</strong> ${ua}<br><br>
-        <strong>Payment Method:</strong> Cryptocurrency<br>
-        <strong>TX Hash:</strong> ${th}<br>
-        <strong>Network:</strong> TRC20 Testnet<br>
-        <strong>Status:</strong> ✅ Confirmed<br><br>
-        <em>Testnet transaction</em>`;
-    }
-    
-    e.innerHTML=h;
-    r.style.display='block';
-    k=[];
-    y=0;
-    u();
-    
-    o.showPopup&&o.showPopup({
-        title: "Payment Successful",
-        message: "Your order has been processed!"
-    });
-}
-
-document.addEventListener('DOMContentLoaded',()=>{o.ready();u()});
-</script>
+        let currentStage = 0;
+        let deliveryInterval;
+        
+        function selectPayment(type) {
+            selectedPayment = type;
+            
+            if (type === 'test') {
+                startTestPayment();
+            } else if (type === 'secret') {
+                startSecretDelivery();
+            }
+        }
+        
+        function startTestPayment() {
+            const statusTitle = document.getElementById('statusTitle');
+            const statusContent = document.getElementById('statusContent');
+            const successMessage = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            
+            statusTitle.textContent = "🧠 НЕЙРО-ОПЛАТА";
+            statusContent.innerHTML = "Активация визуальных паттернов...";
+            
+            // Анимация нейро-оплаты
+            const neuroStages = [
+                "🔮 Генерация визуального кода...",
+                "👁️ Сканирование сетчатки...", 
+                "🧠 Анализ мозговых волн...",
+                "🎨 Создание платежного паттерна...",
+                "⚡ Мгновенная авторизация...",
+                "✅ Оплата подтверждена!"
+            ];
+            
+            let stage = 0;
+            const neuroInterval = setInterval(() => {
+                if (stage < neuroStages.length) {
+                    statusContent.innerHTML = neuroStages[stage];
+                    stage++;
+                } else {
+                    clearInterval(neuroInterval);
+                    statusTitle.textContent = "✅ ТЕСТ ЗАВЕРШЁН";
+                    statusContent.innerHTML = "Нейро-визуальная оплата успешно протестирована!";
+                    successText.textContent = "Технология готова к реальным платежам! Скорость: 0.8с (в 5 раз быстрее PIN-кодов)";
+                    successMessage.classList.remove('hidden');
+                }
+            }, 1000);
+        }
+        
+        function startSecretDelivery() {
+            const statusTitle = document.getElementById('statusTitle');
+            const statusContent = document.getElementById('statusContent');
+            const deliveryMap = document.getElementById('deliveryMap');
+            const orderDetails = document.getElementById('orderDetails');
+            const successMessage = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            
+            statusTitle.textContent = "🚀 РЕАЛЬНЫЙ ЗАКАЗ";
+            deliveryMap.classList.remove('hidden');
+            orderDetails.classList.remove('hidden');
+            
+            // Генерация "реального" номера заказа
+            const orderId = "YE" + Math.floor(100000 + Math.random() * 900000);
+            const courierName = ["Иван", "Алексей", "Дмитрий", "Михаил"][Math.floor(Math.random() * 4)];
+            const courierPhone = "+7 9** *** **" + Math.floor(10 + Math.random() * 90);
+            
+            orderDetails.innerHTML = `
+                <strong>Детали заказа:</strong><br>
+                📦 Заказ: #${orderId}<br>
+                🚗 Курьер: ${courierName}<br>
+                📞 Телефон: ${courierPhone}<br>
+                ⏱️ Время: 15-25 минут
+            `;
+            
+            // Запуск "доставки"
+            currentStage = 0;
+            deliveryInterval = setInterval(() => {
+                if (currentStage < deliveryStages.length) {
+                    statusContent.innerHTML = deliveryStages[currentStage];
+                    
+                    // Спецэффекты для разных этапов
+                    if (currentStage === 2) {
+                        statusContent.innerHTML += "<br><div style='color:#00b894'>✓ Карта списана: 500 ₽</div>";
+                    }
+                    if (currentStage === 4) {
+                        statusContent.innerHTML += `<br><div style='color:#e84393'>🎯 ${courierName} на пути к сцене!</div>`;
+                    }
+                    if (currentStage === 6) {
+                        statusContent.innerHTML += `<br><div style='color:#ff9ff3'>🏁 Почти у цели!</div>`;
+                    }
+                    
+                    currentStage++;
+                } else {
+                    clearInterval(deliveryInterval);
+                    statusTitle.textContent = "🎉 ДОСТАВЛЕНО!";
+                    statusContent.innerHTML = "Вода прибыла на сцену!";
+                    successText.textContent = `Заказ #${orderId} доставлен! ${courierName} привез 5 бутылок воды прямо на сцену конференции!`;
+                    successMessage.classList.remove('hidden');
+                    
+                    // Финальный эффект
+                    tg.showPopup({
+                        title: "🚰 Вода здесь!",
+                        message: "Курьер доставил заказ на сцену!"
+                    });
+                }
+            }, 2500); // Меняй интервал для синхронизации с реальной доставкой
+        }
+        
+        // ИНИЦИАЛИЗАЦИЯ
+        document.addEventListener('DOMContentLoaded', function() {
+            tg.ready();
+            console.log("💧 Система доставки воды активирована!");
+            console.log("💡 СОВЕТ: Закажи воду за 15-20 минут до выступления!");
+        });
+    </script>
 </body>
 </html>
