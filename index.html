@@ -1,58 +1,189 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Durger King</title>
+<title>CoinFlow</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
-body{background:#fff1e6;color:#333}
-.h{background:#ff6b35;color:#fff;padding:12px;text-align:center;position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 10px rgba(255,107,53,0.3)}
-.c{margin-top:60px;margin-bottom:100px;padding:10px}
-.p{background:#fff;border-radius:16px;padding:12px;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);border:2px solid #ffe8dc}
-.pt{font-size:16px;font-weight:700;margin-bottom:4px;color:#ff6b35}
-.pd{font-size:12px;color:#666;margin-bottom:6px}
-.pp{font-size:18px;font-weight:700;color:#333;margin:8px 0}
-.ab{background:#ff6b35;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;width:100%;transition:all 0.3s}
-.ab:active{transform:scale(0.95)}
-.ct{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px;box-shadow:0 -2px 10px rgba(0,0,0,0.1);border-top:2px solid #ffe8dc}
-.ctt{font-size:16px;font-weight:700;margin-bottom:8px;text-align:center;color:#ff6b35}
-.pm{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pb{background:#8b5cf6;color:#fff;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s}
-.pb.tb{background:#4f46e5}
-.pb:active{transform:scale(0.98)}
-.r{background:#fff;border-radius:16px;padding:16px;margin:16px 0;display:none;border:2px solid #ffe8dc}
-.db{background:#8b5cf6;color:#fff;padding:4px 8px;border-radius:12px;font-size:10px;display:inline-block;margin-top:4px}
-.bn{background:linear-gradient(135deg,#ff6b35,#ff8e53);color:white;padding:8px 12px;border-radius:10px;font-size:11px;text-align:center;margin:8px 0}
-.sl{display:none;background:#fff;border-radius:16px;padding:16px;margin:10px 0;border:2px solid #ffe8dc}
-.slt{font-size:14px;font-weight:600;margin-bottom:8px;color:#ff6b35}
-.slb{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.sb{background:#f1f5f9;border:none;padding:10px;border-radius:8px;font-size:13px;cursor:pointer}
-.sb.a{background:#4f46e5;color:#fff}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+body{background:#fff;color:#1d1d1f}
+.h{background:linear-gradient(135deg,#007AFF,#5856D6);color:#fff;padding:44px 20px 20px;position:relative}
+.h::before{content:'';position:absolute;top:0;left:0;right:0;height:44px;background:rgba(0,0,0,0.1)}
+.ht{font-size:28px;font-weight:700;margin-bottom:4px}
+.hs{font-size:17px;opacity:0.9}
+.c{padding:20px}
+.s{background:#f5f5f7;border-radius:16px;padding:20px;margin-bottom:20px}
+.st{font-size:22px;font-weight:700;margin-bottom:16px;color:#1d1d1f}
+.cg{display:grid;gap:12px}
+.cb{background:#fff;border-radius:14px;padding:20px;border:1px solid #e5e5e7;transition:all 0.3s;cursor:pointer}
+.cb:active{transform:scale(0.98);background:#f9f9f9}
+.ct{font-size:17px;font-weight:600;margin-bottom:4px;color:#1d1d1f}
+.cd{font-size:15px;color:#86868b;margin-bottom:8px}
+.cp{font-size:19px;font-weight:700;color:#007AFF}
+.cta{background:#007AFF;color:#fff;border:none;padding:12px 24px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:100%;transition:all 0.3s}
+.cta:active{opacity:0.8}
+.f{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:20px;border-top:1px solid #e5e5e7;box-shadow:0 -4px 20px rgba(0,0,0,0.1)}
+.ft{font-size:20px;font-weight:700;margin-bottom:12px;text-align:center}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fb{background:#007AFF;color:#fff;border:none;padding:16px;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;transition:all 0.3s}
+.fb.s{background:#34C759}
+.fb:active{opacity:0.8}
+.m{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.mc{background:#fff;border-radius:20px;padding:24px;max-width:320px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+.mt{font-size:22px;font-weight:700;margin-bottom:8px;color:#1d1d1f}
+.ms{font-size:17px;color:#86868b;margin-bottom:20px}
+.mg{display:grid;gap:12px}
+.mb{background:#f5f5f7;border:none;padding:16px;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;transition:all 0.3s}
+.mb:active{background:#e5e5e7}
+.r{display:none;background:#fff;border-radius:16px;padding:24px;margin-top:20px;border:1px solid #e5e5e7}
+.rt{font-size:24px;font-weight:700;margin-bottom:16px;color:#1d1d1f;text-align:center}
+.ri{font-size:15px;line-height:1.4;color:#1d1d1f}
+.rib{margin-top:16px;padding-top:16px;border-top:1px solid #e5e5e7;font-size:13px;color:#86868b}
 </style>
 </head>
 <body>
-<div class="h"><h1>🍔 Durger King</h1><div class="db">TESTNET PAYMENTS</div></div>
-<div class="c">
-<div class="bn">🚀 Multiple Payment Methods</div>
-<div class="p"><div class="pt">DURGER</div><div class="pd">Our signature burger with special sauce</div><div class="pp">189 ₽</div><button class="ab" onclick="a('DURGER',189)">ADD TO CART</button></div>
-<div class="p"><div class="pt">CRYPTO FRIES</div><div class="pd">Crispy fries with blockchain seasoning</div><div class="pp">99 ₽</div><button class="ab" onclick="a('CRYPTO FRIES',99)">ADD TO CART</button></div>
-<div class="p"><div class="pt">BITCOIN SHAKE</div><div class="pd">Cold crypto milkshake with NFT topping</div><div class="pp">149 ₽</div><button class="ab" onclick="a('BITCOIN SHAKE',149)">ADD TO CART</button></div>
-<div id="sl" class="sl"><div class="slt">Select Payment Method:</div><div class="slb"><button class="sb" onclick="ps('tbank')">🏦 T-Bank</button><button class="sb" onclick="ps('crypto')">₿ Crypto</button></div></div>
-<div id="r" class="r"><h3>🧾 ORDER RECEIPT</h3><div id="rc"></div></div>
+<div class="h">
+    <div class="ht">CoinFlow</div>
+    <div class="hs">Secure Crypto & Bank Payments</div>
 </div>
-<div class="ct"><div class="ctt">TOTAL: <span id="t">0</span> ₽</div><div class="pm"><button class="pb tb" onclick="psm()">🏦 T-BANK</button><button class="pb" onclick="psm()">₿ CRYPTO</button></div></div>
+
+<div class="c">
+    <div class="s">
+        <div class="st">Digital Products</div>
+        <div class="cg">
+            <div class="cb" onclick="a('Premium Subscription',999)">
+                <div class="ct">Premium Subscription</div>
+                <div class="cd">Monthly access to all features</div>
+                <div class="cp">999 ₽</div>
+            </div>
+            <div class="cb" onclick="a('Crypto Starter Pack',1999)">
+                <div class="ct">Crypto Starter Pack</div>
+                <div class="cd">Beginner cryptocurrency kit</div>
+                <div class="cp">1,999 ₽</div>
+            </div>
+            <div class="cb" onclick="a('NFT Collection',4999)">
+                <div class="ct">NFT Collection</div>
+                <div class="cd">Exclusive digital art pieces</div>
+                <div class="cp">4,999 ₽</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="r" class="r">
+        <div class="rt">Payment Complete</div>
+        <div id="ri" class="ri"></div>
+        <div class="rib">Thank you for your purchase</div>
+    </div>
+</div>
+
+<div class="f">
+    <div class="ft">Total: <span id="t">0</span> ₽</div>
+    <div class="fg">
+        <button class="fb" onclick="pm()">💳 Pay with Card</button>
+        <button class="fb s" onclick="pm()">₿ Pay with Crypto</button>
+    </div>
+</div>
+
+<div id="m" class="m">
+    <div class="mc">
+        <div class="mt">Select Payment</div>
+        <div class="ms">Choose your payment method</div>
+        <div class="mg">
+            <button class="mb" onclick="pp('redsys')">🏦 Credit/Debit Card</button>
+            <button class="mb" onclick="pp('crypto')">₿ Cryptocurrency</button>
+        </div>
+    </div>
+</div>
+
 <script>
-let k=[],y=0,pt='',o=window.Telegram.WebApp;o.expand();
-function a(n,p){k.push({n:n,p:p});y+=p;u();o.showPopup&&o.showPopup({title:"✅ ADDED",message:n+" added to cart"})}
-function u(){document.getElementById('t').textContent=y}
-function psm(){if(0===y)return alert('Cart is empty!');document.getElementById('sl').style.display='block'}
-function ps(m){pt=m;document.getElementById('sl').style.display='none';m==='tbank'?ptb():pc()}
-function ptb(){o.showPopup&&o.showPopup({title:"🏦 T-BANK",message:"Processing "+y+" ₽ via T-Bank API..."});setTimeout(()=>{gr('tbank')},2500)}
-function pc(){o.showPopup&&o.showPopup({title:"₿ CRYPTO",message:"Paying "+y+" ₽ with USDT Testnet..."});setTimeout(()=>{gr('crypto')},2500)}
-function gr(m){const e=document.getElementById('rc'),r=document.getElementById('r'),x=Math.random().toString(16).substr(2,64),pid='TB'+Date.now();let h='';m==='tbank'?h=`<strong>Order #${pid}</strong><br>Time: ${new Date().toLocaleString()}<br><br><strong>Items:</strong><br>${k.map(t=>`• ${t.n} - ${t.p} ₽`).join('<br>')}<br><br><strong>Total: ${y} ₽</strong><br><br><strong>Payment:</strong> T-Bank API<br><strong>Payment ID:</strong> ${pid}<br><strong>Status:</strong> ✅ PROCESSED<br><br><em>T-Bank Sandbox - demo transaction</em>`:h=`<strong>Order #DK${Date.now()}</strong><br>Time: ${new Date().toLocaleString()}<br><br><strong>Items:</strong><br>${k.map(t=>`• ${t.n} - ${t.p} ₽`).join('<br>')}<br><br><strong>Total: ${y} ₽</strong><br>USDT Amount: ${(y/91.5).toFixed(6)}<br><br><strong>Payment:</strong> Crypto Testnet<br><strong>TX Hash:</strong> 0x${x}<br><strong>Status:</strong> ✅ CONFIRMED<br><br><em>Testnet transaction - demo only</em>`;e.innerHTML=h;r.style.display='block';k=[];y=0;u();o.showPopup&&o.showPopup({title:"🎉 SUCCESS!",message:"Payment confirmed! Order cooking..."})}
-document.addEventListener('DOMContentLoaded',function(){o&&o.ready();u()});
+// CONFIG
+const REDSYS_TOKEN = "2051251535:TEST:OTk5MDA4ODgxLTAwNQ";
+const CRYPTO_BOT_TOKEN = "50008:AAY9vOozp113fjHLNJqYnGUgoJ0JXR5ro9t";
+let k=[],y=0,o=window.Telegram.WebApp;
+o.expand();
+
+function a(n,p){k.push({n,p});y+=p;u();o.showPopup&&o.showPopup({title:"Added to Cart",message:n+" added"})}
+function u(){document.getElementById('t').textContent=y.toLocaleString()}
+function pm(){if(y===0)return alert('Cart is empty');document.getElementById('m').style.display='flex'}
+function pp(m){document.getElementById('m').style.display='none';m==='redsys'?pr():pc()}
+
+function pr(){
+    o.showPopup&&o.showPopup({
+        title: "Processing Payment",
+        message: "Connecting to Redsys..."
+    });
+    
+    setTimeout(()=>{
+        o.showPopup&&o.showPopup({
+            title: "Card Payment",
+            message: `Processing ${y} ₽ via Redsys Test...`
+        });
+        
+        setTimeout(()=>{
+            gr('redsys');
+        },2000);
+    },1000);
+}
+
+function pc(){
+    o.showPopup&&o.showPopup({
+        title: "Crypto Payment", 
+        message: "Initializing USDT transfer..."
+    });
+    
+    setTimeout(()=>{
+        o.showPopup&&o.showPopup({
+            title: "Blockchain",
+            message: `Sending ${(y/91.5).toFixed(6)} USDT...`
+        });
+        
+        setTimeout(()=>{
+            gr('crypto');
+        },2000);
+    },1000);
+}
+
+function gr(m){
+    const e=document.getElementById('ri'),r=document.getElementById('r');
+    let h='',oid=Math.random().toString(36).substr(2,9).toUpperCase();
+    
+    if(m==='redsys'){
+        h=`<strong>Order #RS${oid}</strong><br><br>
+        <strong>Items:</strong><br>
+        ${k.map(i=>`• ${i.n} - ${i.p} ₽`).join('<br>')}<br><br>
+        <strong>Total: ${y} ₽</strong><br><br>
+        <strong>Payment Method:</strong> Credit Card (Redsys)<br>
+        <strong>Transaction ID:</strong> ${oid}<br>
+        <strong>Status:</strong> ✅ Approved<br><br>
+        <em>Test transaction - Redsys Sandbox</em>`;
+    }else{
+        const ua=(y/91.5).toFixed(6),th='0x'+Math.random().toString(16).substr(2,64);
+        h=`<strong>Order #CF${oid}</strong><br><br>
+        <strong>Items:</strong><br>
+        ${k.map(i=>`• ${i.n} - ${i.p} ₽`).join('<br>')}<br><br>
+        <strong>Total: ${y} ₽</strong><br>
+        <strong>USDT Amount:</strong> ${ua}<br><br>
+        <strong>Payment Method:</strong> Cryptocurrency<br>
+        <strong>TX Hash:</strong> ${th}<br>
+        <strong>Network:</strong> TRC20 Testnet<br>
+        <strong>Status:</strong> ✅ Confirmed<br><br>
+        <em>Testnet transaction</em>`;
+    }
+    
+    e.innerHTML=h;
+    r.style.display='block';
+    k=[];
+    y=0;
+    u();
+    
+    o.showPopup&&o.showPopup({
+        title: "Payment Successful",
+        message: "Your order has been processed!"
+    });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{o.ready();u()});
 </script>
 </body>
 </html>
